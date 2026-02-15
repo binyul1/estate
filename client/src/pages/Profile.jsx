@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 
+
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
@@ -22,6 +23,7 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState(false);
+  
   const fileRef = useRef(null);
 
   if (!currentUser) {
