@@ -17,8 +17,7 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
-
-  const __dirname = path.resolve();
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -26,26 +25,28 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, "client", "dist")));
 
-app.get ("*", (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
 
 app.use((error, req, res, next) => {
-  const statusCode= error.statusCode || 500;
-  const message= error.message || "Internal Server Error";
-  res.status(statusCode).json({ 
+  const statusCode = error.statusCode || 500;
+  const message = error.message || "Internal Server Error";
+  res.status(statusCode).json({
     success: false,
     statusCode,
     message,
-   });
+  });
 });
